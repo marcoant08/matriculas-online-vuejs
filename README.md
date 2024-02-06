@@ -16,3 +16,5 @@ Com o backend em execução, rode os comandos a seguir:
 > npm install
 > npm run dev
 ```
+
+A aplicação estará rodando em ``http://localhost:5173/``
