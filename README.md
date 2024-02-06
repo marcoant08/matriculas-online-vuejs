@@ -6,7 +6,7 @@ Um funcionário de uma instituição de ensino precisa gerenciar alunos de turma
 
 ## Sobre
 
-Sistema feito com **Vue.js** e **Tailwind CSS**, é o frontend da aplicação Node.js do repositório [matriculas-online-vuejs](https://github.com/marcoant08/matriculas-online-vuejs)
+Sistema feito com **Vue.js** e **Tailwind CSS**, é o frontend da aplicação Node.js do repositório [matriculas-online-solid](https://github.com/marcoant08/matriculas-online-solid)
 
 ## Como executar a aplicação
 
