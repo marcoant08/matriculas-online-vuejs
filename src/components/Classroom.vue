@@ -38,11 +38,23 @@ import XCircle from '@/components/icons/XCircle.vue'
             </div>
         </div>
     </div>
+
+    <Modal title="Feito" :close="() => setSuccessMessage()" :show="successMessage !== ''">
+        <div class="flex gap-1 items-center self-center py-8">
+            <div>
+                <Success />
+            </div>
+
+            <p class="text-center text-lg">{{ successMessage }}</p>
+        </div>
+    </Modal>
 </template>
   
 <script>
 import { defineComponent, } from 'vue';
 import { api } from '@/services/api';
+import Modal from './Modal.vue';
+import Success from './icons/Success.vue';
 
 export default defineComponent({
     props: {
@@ -66,7 +78,17 @@ export default defineComponent({
             await api.delete(`enrollment/${enrollmentId}`)
                 .then(() => {
                     this.enrollments = this.enrollments.filter((enrollment => enrollment.enrollmentId !== enrollmentId))
+                    this.setSuccessMessage("Matrícula deletada com sucesso!")
                 })
+        },
+        setSuccessMessage(message) {
+            this.toggleShowEnrollments(); // fecha outros modais
+            this.successMessage = message || ""
+
+            // limpa mensagem após 3 segundos
+            setTimeout(() => {
+                this.successMessage = ""
+            }, 3000)
         },
         toggleShowEnrollments() {
             this.showEnrollments = !this.showEnrollments;
@@ -78,7 +100,8 @@ export default defineComponent({
     data() {
         return {
             enrollments: [],
-            showEnrollments: false
+            showEnrollments: false,
+            successMessage: ""
         };
     },
 })
