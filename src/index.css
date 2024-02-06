@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* animação boletoCard */
+@keyframes fade-slide-down {
+  0% {
+    margin-top: -10%;
+    opacity: 0;
+  }
+  30% {
+    margin-top: 0%;
+    opacity: 0;
+    scale: 0.97;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-slide-down {
+  animation: fade-slide-down 0.4s ease-in-out;
+}
+
+/* animação boletoCard */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
