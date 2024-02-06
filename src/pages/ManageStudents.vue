@@ -27,7 +27,7 @@ import Layout from '@/components/Layout.vue'
                     </div>
                 </div>
 
-                <div class="flex gap-1 items-center self-center my-4" v-if="failureMessage">
+                <div class="flex gap-1 self-center my-4 justify-center items-center" v-if="failureMessage">
                     <div>
                         <XCircle />
                     </div>
@@ -37,7 +37,7 @@ import Layout from '@/components/Layout.vue'
         </Modal>
 
         <Modal title="Editar cadastro" :close="closeModal" :show="action === 'edit'">
-            <div class="flex flex-col gap-2 bg-white p-5 mx-auto rounded-md shadow-md w-96">
+            <div class="flex flex-col gap-2 bg-white p-5 mx-auto w-96">
                 <div class="flex gap-2 justify-between items-center">
                     <label for="name">Nome:</label>
                     <input class="border border-neutral-300 rounded-lg outline-none h-10 px-3 py-2 disabled:bg-neutral-200"
@@ -62,13 +62,6 @@ import Layout from '@/components/Layout.vue'
                         <XCircle />
                     </div>
                     <p class="text-center">Falha: {{ failureMessage }}</p>
-                </div>
-
-                <div class="flex gap-1 items-center self-center" v-if="successMessage">
-                    <div>
-                        <Success />
-                    </div>
-                    <p class="text-center">{{ successMessage }}</p>
                 </div>
             </div>
         </Modal>
@@ -97,6 +90,16 @@ import Layout from '@/components/Layout.vue'
                 </div>
             </div>
         </Modal>
+
+        <Modal title="Feito" :close="() => setSuccessMessage()" :show="successMessage !== ''">
+            <div class="flex gap-1 items-center self-center py-8">
+                <div>
+                    <Success />
+                </div>
+
+                <p class="text-center text-lg">{{ successMessage }}</p>
+            </div>
+        </Modal>
     </Layout>
 </template>
 
@@ -107,21 +110,20 @@ import Student from '@/components/Student.vue';
 import XCircle from '@/components/icons/XCircle.vue';
 import Modal from '@/components/Modal.vue';
 import SuccessRegular from '@/components/icons/SuccessRegular.vue';
+import Success from '@/components/icons/Success.vue';
 
 export default defineComponent({
     name: "Students",
     methods: {
         async deleteStudent() {
-            console.log(this.selectedStudent, this.email, this.name)
             await api.delete(`student/${this.selectedStudent}`)
                 .then(() => {
                     this.students = this.students.filter((student => student.id !== this.selectedStudent));
-                    this.closeModal()
+                    this.setSuccessMessage("Cadastro excluído com sucesso!")
                 });
         },
 
         async updateStudent() {
-            console.log(this.selectedStudent, this.email, this.name)
             // await api.delete(`student/${this.selectedStudent}`)
             //     .then(() => {
             //         this.students = this.students.filter((student => student.id !== this.selectedStudent));
@@ -140,7 +142,6 @@ export default defineComponent({
 
             if (this.selectedStudent) {
                 const student = this.students.find(s => s.id === this.selectedStudent)
-            console.log(student, studentId)
                 this.name === student?.name
                 this.email === student?.email
             }
@@ -151,12 +152,31 @@ export default defineComponent({
             this.action = this.action ? "" : action;
         },
 
+        setSuccessMessage(message) {
+            this.closeModal(); // fecha outros modais
+            this.successMessage = message || ""
+
+            // limpa mensagem após 3 segundos
+            setTimeout(() => {
+                this.successMessage = ""
+            }, 3000)
+        },
+
+        setFailureMessage(message) {
+            this.failureMessage = message || ""
+
+            // limpa mensagem após 3 segundos
+            setTimeout(() => {
+                this.failureMessage = ""
+            }, 3000)
+        },
+
         async enroll(classroomId) {
             await api.post("enrollment", { studentId: this.selectedStudent, classroomId })
                 .then(() => {
-                    this.selectedStudent = ""
+                    this.setSuccessMessage("Matriculado com sucesso")
                 }).catch(e => {
-                    this.failureMessage = e.response.data.message
+                    this.setFailureMessage(e.response.data.message)
                 })
         }
     },
