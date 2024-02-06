@@ -1,29 +1,18 @@
-# frontend
+# Matrículas Online
 
-This template should help get you started developing with Vue 3 in Vite.
+## Cenário
 
-## Recommended IDE Setup
+Um funcionário de uma instituição de ensino precisa gerenciar alunos de turmas online, realizando as matrículas dos alunos nas turmas.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Sobre
 
-## Customize configuration
+Sistema feito com **Vue.js** e **Tailwind CSS**, é o frontend da aplicação Node.js do repositório [matriculas-online-solid](https://github.com/marcoant08/matriculas-online-solid)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Como executar a aplicação
 
-## Project Setup
+Com o backend em execução, rode os comandos a seguir:
 
-```sh
-npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
+> npm install
+> npm run dev
 ```
