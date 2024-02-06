@@ -81,13 +81,6 @@ import Layout from '@/components/Layout.vue'
                     </div>
                     <p class="text-center">Falha: {{ failureMessage }}</p>
                 </div>
-
-                <div class="flex gap-1 items-center self-center" v-if="successMessage">
-                    <div>
-                        <Success />
-                    </div>
-                    <p class="text-center">{{ successMessage }}</p>
-                </div>
             </div>
         </Modal>
 
@@ -120,14 +113,27 @@ export default defineComponent({
                 .then(() => {
                     this.students = this.students.filter((student => student.id !== this.selectedStudent));
                     this.setSuccessMessage("Cadastro excluído com sucesso!")
-                });
+                }).catch(e => {
+                    this.setFailureMessage(e.response.data.message)
+                })
         },
 
         async updateStudent() {
-            // await api.delete(`student/${this.selectedStudent}`)
-            //     .then(() => {
-            //         this.students = this.students.filter((student => student.id !== this.selectedStudent));
-            //     });
+            if (this.selectedStudent) {
+                const data = { name: this.name, email: this.email }
+                await api.patch(`student/${this.selectedStudent}`, data)
+                    .then(() => {
+                        this.students = this.students.map((student => {
+                            if (student.id === this.selectedStudent) {
+                                return { ...student, name: this.name, email: this.email }
+                            } else return student
+                        }));
+                        this.setSuccessMessage("Cadastro atualizado com sucesso!")
+                    }).catch(e => {
+                        this.setFailureMessage(e.response.data.message)
+                    })
+            }
+
         },
 
         closeModal() {
@@ -142,8 +148,8 @@ export default defineComponent({
 
             if (this.selectedStudent) {
                 const student = this.students.find(s => s.id === this.selectedStudent)
-                this.name === student?.name
-                this.email === student?.email
+                this.name = student?.name
+                this.email = student?.email
             }
         },
 
